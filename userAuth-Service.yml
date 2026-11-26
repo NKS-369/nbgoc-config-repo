@@ -1,1 +1,37 @@
+server:
+  port: 8081
+  
+spring:   
+  datasource:
+    url: jdbc:mysql://localhost:3306/nbgoc_user_auth_service?useSSL=false&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
 
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope: openid, profile, email
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+            scope: read:user, user:email
+
+  app:
+    jwt:
+      # 256-bit Base64 secret key for signing your app's JWTs
+      secret: "bXlTdXBlclNlY3JldEtleUZvclNwcmluZ0Jvb3RKd3RTc29BdXRoMjU2Qml0cw=="
+      expiration-ms: 86400000 # 24 hours
+    oauth2:
+      authorized-redirect-uri: "http://localhost:3000/oauth2/callback"
